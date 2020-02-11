@@ -3,10 +3,9 @@ import PropTypes from "prop-types";
 
 /** Core */
 import Input from "../../core/Input";
-import Button from "../../core/Button";
 
-const Finder = ({ getCharacters }) => (
-  <div className="row">
+const Finder = ({ getCharacters }) => {
+  return (
     <div className="col-sm-6">
       <div className="form-group">
         <label htmlFor="searchInput" className="sr-only">
@@ -21,13 +20,8 @@ const Finder = ({ getCharacters }) => (
         />
       </div>
     </div>
-    <div className="col-sm-6 text-sm-right">
-      <Button type="button" className="btn btn-primary mb-3">
-        Add New
-      </Button>
-    </div>
-  </div>
-);
+  );
+};
 
 Finder.propTypes = {
   getCharacters: PropTypes.func

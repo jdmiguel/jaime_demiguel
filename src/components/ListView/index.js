@@ -4,7 +4,7 @@ import React, { Component, Fragment } from "react";
 import Title from "../core/Title";
 
 /** Components */
-import Finder from "./Finder";
+import BarTool from "./BarTool";
 import Table from "./Table";
 import Pagination from "./Pagination";
 
@@ -51,10 +51,14 @@ class ListView extends Component {
 
   render() {
     const { characterList } = this.state;
+    const { history } = this.props;
     return (
       <Fragment>
         <Title>List View</Title>
-        <Finder getCharacters={query => this.getCharactersBySearch(query)} />
+        <BarTool
+          getCharacters={query => this.getCharactersBySearch(query)}
+          history={history}
+        />
         {characterList.length ? (
           <Table characterList={characterList} />
         ) : (
