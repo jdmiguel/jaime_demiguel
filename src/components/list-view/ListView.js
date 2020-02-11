@@ -9,11 +9,17 @@ import Table from "./Table";
 import Pagination from "./Pagination";
 
 /** Service */
-import { getCharactersService } from "../../services/api";
+import {
+  getCharactersService,
+  getCharactersBySearchService
+} from "../../services/api";
+
+const MsgNotFound = () => <p>No Results Found</p>;
 
 class ListView extends Component {
   state = {
-    characterList: []
+    characterList: [],
+    currentPage: 1
   };
 
   componentDidMount() {
@@ -23,9 +29,24 @@ class ListView extends Component {
   getCharactersByPage = page => {
     getCharactersService(page).then(response => {
       this.setState({
-        characterList: response
+        characterList: response,
+        currentPage: page
       });
     });
+  };
+
+  getCharactersBySearch = query => {
+    if (query.length) {
+      setTimeout(() => {
+        getCharactersBySearchService(query).then(response => {
+          this.setState({
+            characterList: response
+          });
+        });
+      }, 200);
+    } else {
+      this.getCharactersByPage(this.state.currentPage);
+    }
   };
 
   render() {
@@ -33,8 +54,12 @@ class ListView extends Component {
     return (
       <Fragment>
         <Title>List View</Title>
-        <Finder />
-        <Table characterList={characterList} />
+        <Finder getCharacters={query => this.getCharactersBySearch(query)} />
+        {characterList.length ? (
+          <Table characterList={characterList} />
+        ) : (
+          <MsgNotFound />
+        )}
         <Pagination getCharacters={page => this.getCharactersByPage(page)} />
       </Fragment>
     );

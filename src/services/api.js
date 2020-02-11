@@ -11,3 +11,11 @@ export const getCharactersService = (page, limit = 10) =>
       _limit: limit
     }
   });
+
+export const getCharactersBySearchService = query =>
+  request(`${API_CHARACTERS}`, {
+    method: "GET",
+    params: {
+      q: query
+    }
+  });
