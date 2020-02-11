@@ -2,8 +2,8 @@ import React from "react";
 import { Route } from "react-router-dom";
 
 /** Components */
-import Header from "./Header";
-import ListView from "./list-view/ListView";
+import Header from "./components/Header";
+import ListView from "./components/list-view/ListView";
 
 const App = () => (
   <div className="App">
