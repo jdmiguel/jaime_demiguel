@@ -123,6 +123,7 @@ class NewCharacter extends Component {
       nameClasses,
       speciesValue,
       speciesList,
+      speciesClasses,
       genderValue,
       homeWorldValue,
       btnClasses,
@@ -144,7 +145,7 @@ class NewCharacter extends Component {
         this.activeError("nameError", "nameClasses", nameClasses);
       } else if (speciesValue === speciesList[0]) {
         this.speciesRef.focus();
-        this.setSpeciesError();
+        this.activeError("speciesError", "speciesClasses", speciesClasses);
       } else {
         this.setState({
           btnClasses: [...btnClasses, "disabled"],
