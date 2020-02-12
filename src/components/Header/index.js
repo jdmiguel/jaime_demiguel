@@ -2,9 +2,6 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
 
-/** Core */
-import Button from "../core/Button";
-
 class Header extends Component {
   state = {
     isOpen: false
@@ -24,7 +21,7 @@ class Header extends Component {
             Sonalake Task
           </Link>
 
-          <Button
+          <button
             type="button"
             onClick={() => this.onToggle()}
             className={classNames("navbar-toggler", {
@@ -34,7 +31,7 @@ class Header extends Component {
             aria-label="Toggle navigation"
           >
             <span className="navbar-toggler-icon" />
-          </Button>
+          </button>
 
           <div
             className={classNames("collapse", "navbar-collapse", {

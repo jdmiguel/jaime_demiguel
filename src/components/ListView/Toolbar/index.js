@@ -1,17 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-/** Core */
-import Button from "../../core/Button";
-
 /** Component */
 import Finder from "./Finder";
 
-const BarTool = ({ getCharacters, history }) => (
+const Toolbar = ({ getCharacters, history }) => (
   <div className="row">
     <Finder getCharacters={getCharacters} />
     <div className="col-sm-6 text-sm-right">
-      <Button
+      <button
         type="button"
         className="btn btn-primary mb-3"
         onClick={() => {
@@ -19,13 +16,13 @@ const BarTool = ({ getCharacters, history }) => (
         }}
       >
         Add New
-      </Button>
+      </button>
     </div>
   </div>
 );
 
-BarTool.propTypes = {
+Toolbar.propTypes = {
   getCharacters: PropTypes.func
 };
 
-export default BarTool;
+export default Toolbar;

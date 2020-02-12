@@ -1,10 +1,8 @@
 import React, { Component, Fragment } from "react";
 
-/** Core */
-import Title from "../core/Title";
-
 /** Components */
-import BarTool from "./BarTool";
+import Title from "./Title";
+import Toolbar from "./Toolbar";
 import Table from "./Table";
 import Pagination from "./Pagination";
 
@@ -55,7 +53,7 @@ class ListView extends Component {
     return (
       <Fragment>
         <Title>List View</Title>
-        <BarTool
+        <Toolbar
           getCharacters={query => this.getCharactersBySearch(query)}
           history={history}
         />

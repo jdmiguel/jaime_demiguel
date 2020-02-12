@@ -1,83 +1,286 @@
 import React, { Component } from "react";
 
-/** Core */
-import Input from "../core/Input";
-import Button from "../core/Button";
+/** Service */
+import {
+  getSpeciesService,
+  createNewCharacterService
+} from "../../services/api";
+
+const errorMsg = "This field is required";
 
 class NewCharacter extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
+  state = {
+    nameClasses: ["form-control"],
+    nameValue: "",
+    nameError: false,
+    speciesList: [],
+    speciesValue: "Choose one option",
+    speciesClasses: ["custom-select"],
+    speciesError: false,
+    genderValue: "male",
+    homeWorldValue: "",
+    btnClasses: ["btn", "btn-primary"],
+    isCreatingNewCharacter: false
+  };
+
+  componentDidMount() {
+    getSpeciesService().then(response => {
+      this.setState({
+        speciesList: ["Choose one option", ...response]
+      });
+    });
   }
+
+  setValue = (field, value) => {
+    const { nameClasses, speciesClasses } = this.state;
+
+    this.setState({
+      [field]: value
+    });
+
+    switch (value) {
+      case "speciesValue":
+        this.desactiveError("nameError", "nameClasses", nameClasses);
+        break;
+      case "nameValue":
+      default:
+        this.desactiveError("speciesError", "speciesClasses", speciesClasses);
+        break;
+    }
+  };
+
+  onFocusName = () => {
+    const { nameClasses } = this.state;
+
+    this.setState({
+      nameError: false,
+      nameClasses: [...nameClasses].filter(item => item !== "is-invalid")
+    });
+  };
+
+  onBlurName = () => {
+    const { nameValue, nameClasses } = this.state;
+
+    if (!nameValue) {
+      this.activeError("nameError", "nameClasses", nameClasses);
+    } else {
+      this.desactiveError("nameError", "nameClasses", nameClasses);
+    }
+  };
+
+  onFocusSpecies = () => {
+    const { speciesClasses } = this.state;
+
+    this.setState({
+      speciesError: false,
+      speciesClasses: [...speciesClasses].filter(item => item !== "is-invalid")
+    });
+  };
+
+  onBlurSpecies = () => {
+    const { speciesValue, speciesList, speciesClasses } = this.state;
+
+    if (speciesValue === speciesList[0]) {
+      this.activeError("speciesError", "speciesClasses", speciesClasses);
+    } else {
+      this.desactiveError("nameError", "nameClasses", speciesClasses);
+    }
+  };
+
+  setSpeciesError = () => {
+    const { speciesClasses } = this.state;
+
+    this.setState({
+      speciesError: true,
+      speciesClasses: [...speciesClasses, "is-invalid"]
+    });
+  };
+
+  setGender = value => {
+    this.setState({
+      genderValue: value
+    });
+  };
+
+  activeError = (error, classesName, classesSelected) => {
+    this.setState({
+      [error]: true,
+      [classesName]: [...classesSelected, "is-invalid"]
+    });
+  };
+
+  desactiveError = (error, classesName, classesSelected) => {
+    this.setState({
+      [error]: false,
+      [classesName]: [...classesSelected].filter(item => item !== "is-invalid")
+    });
+  };
+
+  addCharacter = e => {
+    const { history } = this.props;
+    const {
+      nameValue,
+      nameClasses,
+      speciesValue,
+      speciesList,
+      genderValue,
+      homeWorldValue,
+      btnClasses,
+      isCreatingNewCharacter
+    } = this.state;
+    const newCharacter = {
+      id: 1,
+      name: nameValue,
+      species: speciesValue,
+      gender: genderValue,
+      homeworld: homeWorldValue
+    };
+
+    e.preventDefault();
+
+    if (!isCreatingNewCharacter) {
+      if (!nameValue) {
+        this.nameRef.focus();
+        this.activeError("nameError", "nameClasses", nameClasses);
+      } else if (speciesValue === speciesList[0]) {
+        this.speciesRef.focus();
+        this.setSpeciesError();
+      } else {
+        this.setState({
+          btnClasses: [...btnClasses, "disabled"],
+          isCreatingNewCharacter: true
+        });
+
+        createNewCharacterService(newCharacter).then(response => {
+          setTimeout(() => {
+            history.push("/");
+          }, 1000);
+        });
+      }
+    }
+  };
+
   render() {
+    const {
+      nameClasses,
+      nameValue,
+      nameError,
+      speciesList,
+      speciesValue,
+      speciesClasses,
+      speciesError,
+      genderValue,
+      homeWorldValue,
+      btnClasses
+    } = this.state;
+
     return (
       <form>
         <div className="form-group">
-          <label for="name-field">Name</label>
-          <Input
-            type="text"
-            className="form-control"
-            id="name-field"
+          <label>
+            <span className="text-primary mr-2">*</span>Name
+          </label>
+          <input
+            className={nameClasses.join(" ")}
             placeholder="Name"
+            onFocus={this.onFocusName}
+            onBlur={this.onBlurName}
+            value={nameValue}
+            onChange={e => {
+              this.setValue("nameValue", e.currentTarget.value);
+            }}
+            ref={name => {
+              this.nameRef = name;
+            }}
           />
+          {nameError && <p className="mt-2 text-danger">{errorMsg}</p>}
         </div>
         <div className="form-group">
-          <label for="species-field">Species</label>
-          <select className="custom-select" id="species-field">
-            <option selected>Choose...</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+          <label>
+            <span className="text-primary mr-2">*</span>Species
+          </label>
+          <select
+            className={speciesClasses.join(" ")}
+            onFocus={this.onFocusSpecies}
+            onBlur={this.onBlurSpecies}
+            value={speciesValue}
+            onChange={e => {
+              this.setValue("speciesValue", e.currentTarget.value);
+            }}
+            ref={species => {
+              this.speciesRef = species;
+            }}
+          >
+            {speciesList.map(item => (
+              <option key={item}>{item}</option>
+            ))}
           </select>
+          {speciesError && <p className="mt-2 text-danger">{errorMsg}</p>}
         </div>
         <div className="form-group">
-          <label for="gender-field">Gender</label>
+          <label>
+            <span className="text-primary mr-2">*</span>Gender
+          </label>
           <div>
             <label className="mr-3">
-              <Input
+              <input
                 className="mr-1"
                 type="radio"
-                autocomplete="off"
                 value="male"
                 name="optradio"
-                checked
+                checked={genderValue === "male"}
+                onChange={e => {
+                  this.setGender(e.currentTarget.value);
+                }}
               />
               Male
             </label>
             <label className="mr-3">
-              <Input
+              <input
                 className="mr-1"
                 type="radio"
                 value="female"
                 name="optradio"
-                autocomplete="off"
+                checked={genderValue === "female"}
+                onChange={e => {
+                  this.setGender(e.currentTarget.value);
+                }}
               />
               Female
             </label>
             <label className="mr-3">
-              <Input
+              <input
                 className="mr-1"
                 type="radio"
                 value="n/a"
                 name="optradio"
-                autocomplete="off"
+                checked={genderValue === "n/a"}
+                onChange={e => {
+                  this.setGender(e.currentTarget.value);
+                }}
               />
               n/a
             </label>
           </div>
         </div>
         <div className="form-group">
-          <label for="homeworld-field">Homeworld</label>
-          <Input
-            type="text"
+          <label>Homeworld</label>
+          <input
             className="form-control"
-            id="homeworld-field"
             placeholder="Homeworld"
+            value={homeWorldValue}
+            onChange={e => {
+              this.setValue("homeWorldValue", e.currentTarget.value);
+            }}
           />
         </div>
-        <Button type="submit" className="btn btn-primary">
-          Submit
-        </Button>
+        <button
+          type="submit"
+          className={btnClasses.join(" ")}
+          onClick={e => this.addCharacter(e)}
+        >
+          Add Character
+        </button>
       </form>
     );
   }

@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-/** Core */
-import Button from "../../core/Button";
-
 class Pagination extends Component {
   state = {
     previousBtnClasses: ["page-item", "disabled"],
@@ -64,41 +61,41 @@ class Pagination extends Component {
       <nav aria-label="Data grid navigation">
         <ul className="pagination justify-content-end">
           <li className={previousBtnClasses.join(" ")}>
-            <Button
-              type="Button"
+            <button
+              type="button"
               className="page-link"
               tabIndex="-1"
               onClick={this.onClickPrevPage}
             >
               Previous
-            </Button>
+            </button>
           </li>
           <li className={firstBtnClasses.join(" ")}>
-            <Button
-              type="Button"
+            <button
+              type="button"
               className="page-link"
               onClick={this.onClickPrevPage}
             >
               1 <span className="sr-only">(current)</span>
-            </Button>
+            </button>
           </li>
           <li className={secondBtnClasses.join(" ")}>
-            <Button
-              type="Button"
+            <button
+              type="button"
               className="page-link"
               onClick={this.onClickNextPage}
             >
               2
-            </Button>
+            </button>
           </li>
           <li className={nextBtnClasses.join(" ")}>
-            <Button
-              type="Button"
+            <button
+              type="button"
               className="page-link"
               onClick={this.onClickNextPage}
             >
               Next
-            </Button>
+            </button>
           </li>
         </ul>
       </nav>

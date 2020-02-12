@@ -1,9 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-/** Core */
-import Input from "../../core/Input";
-
 const Finder = ({ getCharacters }) => {
   return (
     <div className="col-sm-6">
@@ -11,8 +8,7 @@ const Finder = ({ getCharacters }) => {
         <label htmlFor="searchInput" className="sr-only">
           Search
         </label>
-        <Input
-          type="text"
+        <input
           className="form-control"
           id="searchInput"
           placeholder="Search..."

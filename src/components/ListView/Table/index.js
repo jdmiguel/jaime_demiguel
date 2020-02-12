@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-/** Core */
-import Button from "../../core/Button";
-
 class Table extends Component {
   state = {
     currentValue: ""
@@ -37,12 +34,12 @@ class Table extends Component {
                   role="group"
                   aria-label="Actions"
                 >
-                  <Button type="Button" className="btn btn-secondary">
+                  <button type="button" className="btn btn-secondary">
                     <i className="fa fa-pencil" aria-hidden="true" /> Edit
-                  </Button>
-                  <Button type="Button" className="btn btn-danger">
+                  </button>
+                  <button type="button" className="btn btn-danger">
                     <i className="fa fa-trash-o" aria-hidden="true" /> Remove
-                  </Button>
+                  </button>
                 </div>
               </td>
             </tr>
