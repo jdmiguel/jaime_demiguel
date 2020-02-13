@@ -7,7 +7,7 @@ class Table extends Component {
   };
 
   render() {
-    const { characterList } = this.props;
+    const { characterList, onRemoveCharacter } = this.props;
     return (
       <table className="table table-bordered table-hover">
         <thead className="thead-light">
@@ -37,7 +37,13 @@ class Table extends Component {
                   <button type="button" className="btn btn-secondary">
                     <i className="fa fa-pencil" aria-hidden="true" /> Edit
                   </button>
-                  <button type="button" className="btn btn-danger">
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={() => {
+                      onRemoveCharacter(item.id);
+                    }}
+                  >
                     <i className="fa fa-trash-o" aria-hidden="true" /> Remove
                   </button>
                 </div>
@@ -59,7 +65,8 @@ Table.propTypes = {
       gender: PropTypes.string,
       homeworld: PropTypes.string
     })
-  )
+  ),
+  onRemoveCharacter: PropTypes.func
 };
 
 export default Table;

@@ -28,10 +28,7 @@ export const createCharacterService = character =>
     data: character
   });
 
-export const deleteCharacterService = id =>
-  request(API_CHARACTERS, {
-    method: "DELETE",
-    params: {
-      id
-    }
+export const removeCharacterService = id =>
+  request(`${API_CHARACTERS}${id}`, {
+    method: "DELETE"
   });
