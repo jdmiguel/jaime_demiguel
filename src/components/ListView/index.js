@@ -48,14 +48,21 @@ class ListView extends Component {
     }
   };
 
+  editCharacter = id => {
+    const { history } = this.props;
+
+    history.push(`/editCharacter/${id}`);
+  };
+
   removeCharacter = id => {
     const { characterList, currentPage } = this.state;
+
     this.setState({
       characterList: [...characterList].filter(item => item.id !== id)
     });
 
     removeCharacterService(id);
-    
+
     setTimeout(() => {
       this.getCharactersByPage(currentPage);
     }, 200);
@@ -74,6 +81,7 @@ class ListView extends Component {
         {characterList.length ? (
           <Table
             characterList={characterList}
+            onEditCharacter={this.editCharacter}
             onRemoveCharacter={this.removeCharacter}
           />
         ) : (

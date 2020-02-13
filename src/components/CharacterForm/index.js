@@ -1,12 +1,19 @@
 import React, { Component } from "react";
 
 /** Service */
-import { getSpeciesService, createCharacterService } from "../../services/api";
+import {
+  getCharactersByIdService,
+  getSpeciesService,
+  createCharacterService,
+  editCharacterService
+} from "../../services/api";
 
 const errorMsg = "This field is required";
 
 class CharacterForm extends Component {
   state = {
+    editMode: false,
+    characterId: null,
     nameClasses: ["form-control"],
     nameValue: "",
     nameError: false,
@@ -21,6 +28,25 @@ class CharacterForm extends Component {
   };
 
   componentDidMount() {
+    const {
+      match: {
+        params: { id }
+      }
+    } = this.props;
+
+    if (id) {
+      getCharactersByIdService(id).then(response => {
+        this.setState({
+          nameValue: response.name,
+          speciesValue: response.species,
+          genderValue: response.gender,
+          homeWorld: response.homeWorldValue,
+          characterId: id,
+          editMode: true
+        });
+      });
+    }
+
     getSpeciesService().then(response => {
       this.setState({
         speciesList: ["Choose one option", ...response]
@@ -113,9 +139,11 @@ class CharacterForm extends Component {
     });
   };
 
-  addCharacter = e => {
+  saveCharacter = e => {
     const { history } = this.props;
     const {
+      editMode,
+      characterId,
       nameValue,
       nameClasses,
       speciesValue,
@@ -126,7 +154,7 @@ class CharacterForm extends Component {
       btnClasses,
       isCreatingCharacter
     } = this.state;
-    const newCharacter = {
+    const characterData = {
       name: nameValue,
       species: speciesValue,
       gender: genderValue,
@@ -148,17 +176,26 @@ class CharacterForm extends Component {
           isCreatingCharacter: true
         });
 
-        createCharacterService(newCharacter).then(response => {
-          setTimeout(() => {
-            history.push("/");
-          }, 1000);
-        });
+        if (editMode) {
+          editCharacterService(characterId, characterData).then(response => {
+            setTimeout(() => {
+              history.push("/");
+            }, 1000);
+          });
+        } else {
+          createCharacterService(characterData).then(response => {
+            setTimeout(() => {
+              history.push("/");
+            }, 1000);
+          });
+        }
       }
     }
   };
 
   render() {
     const {
+      editMode,
       nameClasses,
       nameValue,
       nameError,
@@ -274,9 +311,9 @@ class CharacterForm extends Component {
         <button
           type="submit"
           className={btnClasses.join(" ")}
-          onClick={e => this.addCharacter(e)}
+          onClick={e => this.saveCharacter(e)}
         >
-          Add Character
+          {editMode ? "Edit Character" : "Add Character"}
         </button>
       </form>
     );

@@ -20,11 +20,25 @@ export const getCharactersBySearchService = query =>
     }
   });
 
+export const getCharactersByIdService = id =>
+  request(`${API_CHARACTERS}${id}`, {
+    method: "GET",
+    params: {
+      id
+    }
+  });
+
 export const getSpeciesService = () => request(API_SPECIES);
 
 export const createCharacterService = character =>
   request(API_CHARACTERS, {
     method: "POST",
+    data: character
+  });
+
+export const editCharacterService = (id, character) =>
+  request(`${API_CHARACTERS}${id}`, {
+    method: "PUT",
     data: character
   });
 
