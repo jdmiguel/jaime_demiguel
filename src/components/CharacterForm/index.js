@@ -22,7 +22,7 @@ class CharacterForm extends Component {
     speciesClasses: ["custom-select"],
     speciesError: false,
     genderValue: "male",
-    homeWorldValue: "",
+    homeworldValue: "",
     btnClasses: ["btn", "btn-primary"],
     isCreatingCharacter: false
   };
@@ -40,7 +40,7 @@ class CharacterForm extends Component {
           nameValue: response.name,
           speciesValue: response.species,
           genderValue: response.gender,
-          homeWorld: response.homeWorldValue,
+          homeworldValue: response.homeworld,
           characterId: id,
           editMode: true
         });
@@ -150,7 +150,7 @@ class CharacterForm extends Component {
       speciesList,
       speciesClasses,
       genderValue,
-      homeWorldValue,
+      homeworldValue,
       btnClasses,
       isCreatingCharacter
     } = this.state;
@@ -158,7 +158,7 @@ class CharacterForm extends Component {
       name: nameValue,
       species: speciesValue,
       gender: genderValue,
-      homeworld: homeWorldValue
+      homeworld: homeworldValue
     };
 
     e.preventDefault();
@@ -204,7 +204,7 @@ class CharacterForm extends Component {
       speciesClasses,
       speciesError,
       genderValue,
-      homeWorldValue,
+      homeworldValue,
       btnClasses
     } = this.state;
 
@@ -302,9 +302,9 @@ class CharacterForm extends Component {
           <input
             className="form-control"
             placeholder="Homeworld"
-            value={homeWorldValue}
+            value={homeworldValue}
             onChange={e => {
-              this.setValue("homeWorldValue", e.currentTarget.value);
+              this.setValue("homeworldValue", e.currentTarget.value);
             }}
           />
         </div>
