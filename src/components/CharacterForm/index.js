@@ -1,14 +1,11 @@
 import React, { Component } from "react";
 
 /** Service */
-import {
-  getSpeciesService,
-  createNewCharacterService
-} from "../../services/api";
+import { getSpeciesService, createCharacterService } from "../../services/api";
 
 const errorMsg = "This field is required";
 
-class NewCharacter extends Component {
+class CharacterForm extends Component {
   state = {
     nameClasses: ["form-control"],
     nameValue: "",
@@ -20,7 +17,7 @@ class NewCharacter extends Component {
     genderValue: "male",
     homeWorldValue: "",
     btnClasses: ["btn", "btn-primary"],
-    isCreatingNewCharacter: false
+    isCreatingCharacter: false
   };
 
   componentDidMount() {
@@ -127,10 +124,9 @@ class NewCharacter extends Component {
       genderValue,
       homeWorldValue,
       btnClasses,
-      isCreatingNewCharacter
+      isCreatingCharacter
     } = this.state;
     const newCharacter = {
-      id: 1,
       name: nameValue,
       species: speciesValue,
       gender: genderValue,
@@ -139,7 +135,7 @@ class NewCharacter extends Component {
 
     e.preventDefault();
 
-    if (!isCreatingNewCharacter) {
+    if (!isCreatingCharacter) {
       if (!nameValue) {
         this.nameRef.focus();
         this.activeError("nameError", "nameClasses", nameClasses);
@@ -149,10 +145,10 @@ class NewCharacter extends Component {
       } else {
         this.setState({
           btnClasses: [...btnClasses, "disabled"],
-          isCreatingNewCharacter: true
+          isCreatingCharacter: true
         });
 
-        createNewCharacterService(newCharacter).then(response => {
+        createCharacterService(newCharacter).then(response => {
           setTimeout(() => {
             history.push("/");
           }, 1000);
@@ -287,4 +283,4 @@ class NewCharacter extends Component {
   }
 }
 
-export default NewCharacter;
+export default CharacterForm;

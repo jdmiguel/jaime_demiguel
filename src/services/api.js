@@ -22,8 +22,16 @@ export const getCharactersBySearchService = query =>
 
 export const getSpeciesService = () => request(API_SPECIES);
 
-export const createNewCharacterService = character =>
+export const createCharacterService = character =>
   request(API_CHARACTERS, {
     method: "POST",
-    params: character
+    data: character
+  });
+
+export const deleteCharacterService = id =>
+  request(API_CHARACTERS, {
+    method: "DELETE",
+    params: {
+      id
+    }
   });

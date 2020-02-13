@@ -12,7 +12,7 @@ const Toolbar = ({ getCharacters, history }) => (
         type="button"
         className="btn btn-primary mb-3"
         onClick={() => {
-          history.push("/newCharacter");
+          history.push("/addCharacter");
         }}
       >
         Add New
