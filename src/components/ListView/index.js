@@ -10,7 +10,8 @@ import Pagination from "./Pagination";
 import {
   getCharactersService,
   getCharactersBySearchService,
-  removeCharacterService
+  removeCharacterService,
+  sortByCharactersService
 } from "../../services/api";
 
 const MsgNotFound = () => <p>No Results Found</p>;
@@ -68,6 +69,14 @@ class ListView extends Component {
     }, 200);
   };
 
+  sortByCharacter = sortBy => {
+    sortByCharactersService(sortBy).then(response => {
+      this.setState({
+        characterList: response
+      });
+    });
+  };
+
   render() {
     const { characterList } = this.state;
     const { history } = this.props;
@@ -83,6 +92,7 @@ class ListView extends Component {
             characterList={characterList}
             onEditCharacter={this.editCharacter}
             onRemoveCharacter={this.removeCharacter}
+            onSortByCharacter={this.sortByCharacter}
           />
         ) : (
           <MsgNotFound />

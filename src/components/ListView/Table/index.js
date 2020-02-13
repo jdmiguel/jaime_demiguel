@@ -1,16 +1,73 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Table = ({ characterList, onEditCharacter, onRemoveCharacter }) => (
+const Table = ({
+  characterList,
+  onEditCharacter,
+  onRemoveCharacter,
+  onSortByCharacter
+}) => (
   <table className="table table-bordered table-hover">
     <thead className="thead-light">
       <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Name</th>
-        <th scope="col">Species</th>
-        <th scope="col">Gender</th>
-        <th scope="col">Homeworld</th>
-        <th scope="col">Actions</th>
+        <th scope="col">
+          <button
+            type="button"
+            className="btn btn-light w-100"
+            onClick={() => {
+              onSortByCharacter("id");
+            }}
+          >
+            Id
+          </button>
+        </th>
+        <th scope="col">
+          <button
+            type="button"
+            className="btn btn-light w-100"
+            onClick={() => {
+              onSortByCharacter("name");
+            }}
+          >
+            Name
+          </button>
+        </th>
+        <th scope="col">
+          <button
+            type="button"
+            className="btn btn-light w-100"
+            onClick={() => {
+              onSortByCharacter("species");
+            }}
+          >
+            Species
+          </button>
+        </th>
+        <th scope="col">
+          <button
+            type="button"
+            className="btn btn-light w-100"
+            onClick={() => {
+              onSortByCharacter("gender");
+            }}
+          >
+            Gender
+          </button>
+        </th>
+        <th scope="col">
+          <button
+            type="button"
+            className="btn btn-light w-100 h-100"
+            onClick={() => {
+              onSortByCharacter("homeworld");
+            }}
+          >
+            Homeworld
+          </button>
+        </th>
+        <th scope="col" className="text-center align-middle">
+          Actions
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -64,7 +121,8 @@ Table.propTypes = {
     })
   ),
   onEditCharacter: PropTypes.func,
-  onRemoveCharacter: PropTypes.func
+  onRemoveCharacter: PropTypes.func,
+  onSortByCharacter: PropTypes.func
 };
 
 export default Table;

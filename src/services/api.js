@@ -3,12 +3,12 @@ import { request } from ".";
 /** Constants */
 import { API_CHARACTERS, API_SPECIES } from "../utils/constants";
 
-export const getCharactersService = (page, limit = 10) =>
+export const getCharactersService = page =>
   request(API_CHARACTERS, {
     method: "GET",
     params: {
       _page: page,
-      _limit: limit
+      _limit: 10
     }
   });
 
@@ -45,4 +45,14 @@ export const editCharacterService = (id, character) =>
 export const removeCharacterService = id =>
   request(`${API_CHARACTERS}${id}`, {
     method: "DELETE"
+  });
+
+export const sortByCharactersService = sortBy =>
+  request(API_CHARACTERS, {
+    method: "GET",
+    params: {
+      _sort: sortBy,
+      _order: "asc",
+      _limit: 10
+    }
   });
