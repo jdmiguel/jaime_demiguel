@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import Finder from "./Finder";
 
 const Toolbar = ({ getCharacters, history }) => (
-  <div className="row">
+  <div className="row mb-2">
     <Finder getCharacters={getCharacters} />
     <div className="col-sm-6 text-sm-right">
       <button

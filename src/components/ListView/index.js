@@ -82,7 +82,7 @@ class ListView extends Component {
     const { history } = this.props;
     return (
       <Fragment>
-        <Title>List View</Title>
+        <Title>STAR WARS Characters</Title>
         <Toolbar
           getCharacters={query => this.getCharactersBySearch(query)}
           history={history}
